@@ -1,0 +1,96 @@
+// components/Sidebar.js
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import Image from 'next/image';
+import Logo from '../img/logo.png';
+import LogoDark from '../img/logo.png';
+
+
+
+export default function Sidebar({ isOpen, onClose }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => onClose();
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => router.events.off('routeChangeStart', handleRouteChange);
+  }, [router, onClose]);
+
+  const navLinks = [
+    { href: '/', label: 'Dashboard', icon: 'fas fa-chart-line' },
+    { href: '/leads', label: 'Leads', icon: 'fas fa-users' },
+    { href: '/clients', label: 'Clients', icon: 'fas fa-users' },
+    { href: '/agents', label: 'Agents', icon: 'fas fa-users' },
+    { href: '/managers', label: 'Managers', icon: 'fas fa-users' },
+    { href: '/training', label: 'Training', icon: 'fas fa-graduation-cap' },
+    { href: '/teams', label: 'Teams', icon: 'fas fa-users' },
+    { href: '/Carriers', label: 'Carriers', icon: 'fas fa-city' },
+    { href: '/bussiness', label: 'Bussiness', icon: 'fas fa-briefcase' },
+    { href: '/settings', label: 'Settings', icon: 'fas fa-cog' },
+  ];
+
+  const sidebarContent = (
+    <div className="flex flex-col w-64 h-full bg-white dark:bg-gray-800 border-r dark:border-gray-700">
+      <div className="flex items-center justify-center h-16 border-b dark:border-gray-700">
+        <Image 
+          src={Logo} 
+          alt="Agents Edge Logo" 
+          height={40} 
+          width={100} 
+          priority
+          className="hidden dark:block"
+        />
+        <Image 
+          src={LogoDark} 
+          alt="Agents Edge Logo" 
+          height={40} 
+          width={100} 
+          priority
+          className="block dark:hidden"
+        />
+        
+      </div>
+      <nav className="flex-1 p-4 space-y-2">
+      {navLinks.map((link) => {
+      const isActive = router.pathname === link.href;
+
+      return (
+      <Link key={link.href} href={link.href} className={`flex items-center px-4 py-3 text-sm rounded-lg sidebar-item ${isActive ? 'text-red-500 font-semibold active dark:text-red-500' : 'text-gray-600 font-medium hover:text-gray-900 dark:text-gray-300 dark:hover:text-white' }`}>
+      <i className={`${link.icon} mr-3 text-gray-400 dark:text-gray-400`}></i>
+      {link.label}
+      </Link>
+      );
+      })}
+
+    </nav>
+      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center">
+          <img className="w-10 h-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Agent" />
+          <div className="ml-3">
+            <p className="text-sm font-medium text-gray-900 dark:text-white">John Carter</p>
+            <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Senior Agent</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar (always visible) */}
+      <div className="hidden md:flex md:flex-shrink-0">{sidebarContent}</div>
+
+      {/* Mobile off-canvas sidebar */}
+      <div className={`fixed inset-0 z-50 md:hidden transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} flex`}>
+        {/* Backdrop */}
+        <div className="fixed inset-0 bg-black bg-opacity-40" onClick={onClose}></div>
+        
+        {/* Sidebar panel */}
+        <div className="relative z-10 w-64 h-full bg-white dark:bg-gray-800 shadow-lg">
+          {sidebarContent}
+        </div>
+      </div>
+    </>
+  );
+}
