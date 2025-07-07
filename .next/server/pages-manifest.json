@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/lead": "pages/lead.js",
-  "/admin/lead": "pages/admin/lead.js",
-  "/": "pages/index.js",
-  "/admin/leadView": "pages/admin/leadView.js"
+  "/admin/leadView": "pages/admin/leadView.js",
+  "/": "pages/index.js"
 }

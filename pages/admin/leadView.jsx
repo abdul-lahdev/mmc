@@ -10,6 +10,8 @@ import AllActivitiesDropdown from "../../components/AllActivitiesDropdown";
 import AllUsersDropdown from "../../components/AllUsersDropdown";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import FileUploader from "../../components/FileUploader";
+import Link from "next/link";
+import CreatableSelect from 'react-select/creatable';
 
 import { useEffect } from "react";
 import {
@@ -48,6 +50,11 @@ export default function LeadView() {
   const [addressData, setAddressData] = useState([]);
   const [editorData, setEditorData] = useState("<p>Hello from CKEditor!</p>");
   const [addFieldValue, setaddFieldValue] = useState([])
+
+  // CC BCC
+  const [ccVal, setccVal] = useState(true)
+  const [bccVal, setBccVal] = useState(true)
+  const [emailTemplate, setEmailTemplate] = useState(false)
 
   // Functions
   function addTaskBtn(e) {
@@ -119,6 +126,28 @@ export default function LeadView() {
       url: "/images/avatarsetting.png",
     },
   ];
+
+  const filesData = [
+    {
+      fname: 'bankstatement.pdf',
+      date: '01/12/25',
+      time: '10:00',
+      size: '275kb',
+    },
+    {
+      fname: 'merchant_request.pdf',
+      date: '01/12/25',
+      time: '10:00',
+      size: '275kb',
+    },
+    {
+      fname: 'financials.pdf',
+      date: '01/12/25',
+      time: '10:00',
+      size: '275kb',
+    },
+
+  ]
 
   //  const opptAccordionData = [
   //     {
@@ -252,6 +281,12 @@ export default function LeadView() {
     },
     {
       value: 'discount', label: 'Discount',
+    },
+  ]
+
+  const sendingData = [
+    {
+      value: 'hamdan@gmail.com', label: 'hamdan@gmail.com'
     },
   ]
 
@@ -1673,7 +1708,11 @@ export default function LeadView() {
               </svg>
               <span className="text-[12px] text-[#62748E] font-[500]">SMS</span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6  hover:bg-gray-100">
+            <button onClick={() => {
+              setEmailTemplate(true);
+              setRightActiveTab('Activity');
+            }}
+              className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6  hover:bg-gray-100">
               <svg
                 width="16"
                 height="16"
@@ -1724,7 +1763,7 @@ export default function LeadView() {
             </Tooltip>
           </div>
         </div>
-      </div>
+      </div >
       <div className="grid xxl:grid-cols-[1fr_3fr] xl:grid-cols-[1fr_3fr]">
         <div>
           {/* HERE */}
@@ -1739,6 +1778,9 @@ export default function LeadView() {
                 onClick={() => setActiveTab(tab)}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                <span className={`bg-[#F1F5F9] rounded-[4px] h-[18px] w-[19px] text-[#45556C] text-[10px]  ${tab.charAt(0).toUpperCase() + tab.slice(1) === 'Files' ? 'inline-block ml-1' : 'hidden'}`}>
+                  {filesData.length}
+                </span>
               </button>
             ))}
           </div>
@@ -2057,168 +2099,175 @@ export default function LeadView() {
                   </div>
                 </Tooltip>
               </div>
-              <div className="mt-3 ">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <div className="">
-                      <svg
-                        width="24"
-                        height="32"
-                        viewBox="0 0 24 32"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        {" "}
-                        <g clipPath="url(#clip0_649_11443)">
-                          {" "}
-                          <path
-                            d="M0 8C0 3.58172 3.58172 0 8 0H13.6L24 10.4V24C24 28.4183 20.4183 32 16 32H8C3.58172 32 0 28.4183 0 24V8Z"
-                            fill="url(#paint0_linear_649_11443)"
-                          />{" "}
-                          <path
-                            d="M19.5996 10.4H23.9996L13.5996 0V4.4C13.5996 7.71371 16.2859 10.4 19.5996 10.4Z"
-                            fill="#DCE2EB"
-                          />{" "}
-                          <path
-                            d="M8 1H13.1855L23 10.8145V24C23 27.866 19.866 31 16 31H8C4.13401 31 1 27.866 1 24V8C1 4.13401 4.13401 1 8 1Z"
-                            stroke="black"
-                            strokeOpacity="0.06"
-                            strokeWidth="2"
-                          />{" "}
-                        </g>{" "}
-                        <defs>
-                          {" "}
-                          <linearGradient
-                            id="paint0_linear_649_11443"
-                            x1="12"
-                            y1="0"
-                            x2="12"
-                            y2="32"
-                            gradientUnits="userSpaceOnUse"
+              <div className="mt-3 flex flex-col gap-3">
+
+
+                {
+                  filesData.map((ele, index) => (
+                    <div key={index} className="flex justify-between items-center border border-[#F1F5F9] p-2 rounded-[8px]">
+                      <div className="flex items-center gap-3">
+                        <div className="">
+                          <svg
+                            width="24"
+                            height="32"
+                            viewBox="0 0 24 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
                             {" "}
-                            <stop stop-color="#F2F6FC" />{" "}
-                            <stop offset="1" stop-color="#EDF1F7" />{" "}
-                          </linearGradient>{" "}
-                          <clipPath id="clip0_649_11443">
-                            {" "}
-                            <rect width="24" height="32" fill="white" />{" "}
-                          </clipPath>{" "}
-                        </defs>{" "}
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="">fileName</p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[#90A1B9] font-[400] text-[10px]">
-                          01/12/25 (10:00 am)
+                            <g clipPath="url(#clip0_649_11443)">
+                              {" "}
+                              <path
+                                d="M0 8C0 3.58172 3.58172 0 8 0H13.6L24 10.4V24C24 28.4183 20.4183 32 16 32H8C3.58172 32 0 28.4183 0 24V8Z"
+                                fill="url(#paint0_linear_649_11443)"
+                              />{" "}
+                              <path
+                                d="M19.5996 10.4H23.9996L13.5996 0V4.4C13.5996 7.71371 16.2859 10.4 19.5996 10.4Z"
+                                fill="#DCE2EB"
+                              />{" "}
+                              <path
+                                d="M8 1H13.1855L23 10.8145V24C23 27.866 19.866 31 16 31H8C4.13401 31 1 27.866 1 24V8C1 4.13401 4.13401 1 8 1Z"
+                                stroke="black"
+                                strokeOpacity="0.06"
+                                strokeWidth="2"
+                              />{" "}
+                            </g>{" "}
+                            <defs>
+                              {" "}
+                              <linearGradient
+                                id="paint0_linear_649_11443"
+                                x1="12"
+                                y1="0"
+                                x2="12"
+                                y2="32"
+                                gradientUnits="userSpaceOnUse"
+                              >
+                                {" "}
+                                <stop stop-color="#F2F6FC" />{" "}
+                                <stop offset="1" stop-color="#EDF1F7" />{" "}
+                              </linearGradient>{" "}
+                              <clipPath id="clip0_649_11443">
+                                {" "}
+                                <rect width="24" height="32" fill="white" />{" "}
+                              </clipPath>{" "}
+                            </defs>{" "}
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="">{ele.fname}</p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[#90A1B9] font-[400] text-[10px]">
+                              {ele.date} ({ele.time} am)
+                            </span>
+                            <span className="block w-[4px] h-[4px] bg-[#CAD5E2] rounded-[50%]"></span>
+                            <span className="text-[#90A1B9] text-[10px] font-[400]">
+                              {ele.size}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="mt-2">
+                          <Menu
+                            as="div"
+                            className="relative inline-block text-left"
+                          >
+                            <div>
+                              <MenuButton>
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  {" "}
+                                  <path
+                                    d="M11.9993 12.6663C12.3675 12.6663 12.666 12.3679 12.666 11.9997C12.666 11.6315 12.3675 11.333 11.9993 11.333C11.6312 11.333 11.3327 11.6315 11.3327 11.9997C11.3327 12.3679 11.6312 12.6663 11.9993 12.6663Z"
+                                    stroke="#90A1B9"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />{" "}
+                                  <path
+                                    d="M16.666 12.6663C17.0342 12.6663 17.3327 12.3679 17.3327 11.9997C17.3327 11.6315 17.0342 11.333 16.666 11.333C16.2978 11.333 15.9993 11.6315 15.9993 11.9997C15.9993 12.3679 16.2978 12.6663 16.666 12.6663Z"
+                                    stroke="#90A1B9"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />{" "}
+                                  <path
+                                    d="M7.33268 12.6663C7.70087 12.6663 7.99935 12.3679 7.99935 11.9997C7.99935 11.6315 7.70087 11.333 7.33268 11.333C6.96449 11.333 6.66602 11.6315 6.66602 11.9997C6.66602 12.3679 6.96449 12.6663 7.33268 12.6663Z"
+                                    stroke="#90A1B9"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />{" "}
+                                </svg>
+                              </MenuButton>
+                            </div>
+
+                            <MenuItems
+                              transition
+                              className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            >
+                              <div className="py-1">
+                                <MenuItem>
+                                  <a
+                                    href="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                  >
+                                    View
+                                  </a>
+                                </MenuItem>
+                                <MenuItem>
+                                  <a
+                                    href="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                  >
+                                    Download
+                                  </a>
+                                </MenuItem>
+                                <MenuItem>
+                                  <a
+                                    href="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                  >
+                                    Copy activity link
+                                  </a>
+                                </MenuItem>
+                              </div>
+                            </MenuItems>
+                          </Menu>
                         </span>
-                        <span className="block w-[4px] h-[4px] bg-[#CAD5E2] rounded-[50%]"></span>
-                        <span className="text-[#90A1B9] text-[10px] font-[400]">
-                          275kb
+                        <span
+                          onClick={() => {
+                            setFileOpen(true);
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            {" "}
+                            <path
+                              d="M13.3327 11.333H9.33268M10.666 13.9997H9.33268M14.666 8.66634H9.33268M17.3327 10.9997V8.53301C17.3327 7.4129 17.3327 6.85285 17.1147 6.42503C16.9229 6.0487 16.617 5.74274 16.2407 5.55099C15.8128 5.33301 15.2528 5.33301 14.1327 5.33301H9.86602C8.74591 5.33301 8.18586 5.33301 7.75803 5.55099C7.38171 5.74274 7.07575 6.0487 6.884 6.42503C6.66602 6.85285 6.66602 7.4129 6.66602 8.53301V15.4663C6.66602 16.5864 6.66602 17.1465 6.884 17.5743C7.07575 17.9506 7.38171 18.2566 7.75803 18.4484C8.18586 18.6663 8.74591 18.6663 9.86602 18.6663H11.666M18.666 18.6663L17.666 17.6663M18.3327 15.9997C18.3327 17.2883 17.288 18.333 15.9993 18.333C14.7107 18.333 13.666 17.2883 13.666 15.9997C13.666 14.711 14.7107 13.6663 15.9993 13.6663C17.288 13.6663 18.3327 14.711 18.3327 15.9997Z"
+                              stroke="#90A1B9"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />{" "}
+                          </svg>
                         </span>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="mt-2">
-                      <Menu
-                        as="div"
-                        className="relative inline-block text-left"
-                      >
-                        <div>
-                          <MenuButton>
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              {" "}
-                              <path
-                                d="M11.9993 12.6663C12.3675 12.6663 12.666 12.3679 12.666 11.9997C12.666 11.6315 12.3675 11.333 11.9993 11.333C11.6312 11.333 11.3327 11.6315 11.3327 11.9997C11.3327 12.3679 11.6312 12.6663 11.9993 12.6663Z"
-                                stroke="#90A1B9"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />{" "}
-                              <path
-                                d="M16.666 12.6663C17.0342 12.6663 17.3327 12.3679 17.3327 11.9997C17.3327 11.6315 17.0342 11.333 16.666 11.333C16.2978 11.333 15.9993 11.6315 15.9993 11.9997C15.9993 12.3679 16.2978 12.6663 16.666 12.6663Z"
-                                stroke="#90A1B9"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />{" "}
-                              <path
-                                d="M7.33268 12.6663C7.70087 12.6663 7.99935 12.3679 7.99935 11.9997C7.99935 11.6315 7.70087 11.333 7.33268 11.333C6.96449 11.333 6.66602 11.6315 6.66602 11.9997C6.66602 12.3679 6.96449 12.6663 7.33268 12.6663Z"
-                                stroke="#90A1B9"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />{" "}
-                            </svg>
-                          </MenuButton>
-                        </div>
+                  ))
+                }
 
-                        <MenuItems
-                          transition
-                          className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                        >
-                          <div className="py-1">
-                            <MenuItem>
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                              >
-                                View
-                              </a>
-                            </MenuItem>
-                            <MenuItem>
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                              >
-                                Download
-                              </a>
-                            </MenuItem>
-                            <MenuItem>
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                              >
-                                Copy activity link
-                              </a>
-                            </MenuItem>
-                          </div>
-                        </MenuItems>
-                      </Menu>
-                    </span>
-                    <span
-                      onClick={() => {
-                        setFileOpen(true);
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        {" "}
-                        <path
-                          d="M13.3327 11.333H9.33268M10.666 13.9997H9.33268M14.666 8.66634H9.33268M17.3327 10.9997V8.53301C17.3327 7.4129 17.3327 6.85285 17.1147 6.42503C16.9229 6.0487 16.617 5.74274 16.2407 5.55099C15.8128 5.33301 15.2528 5.33301 14.1327 5.33301H9.86602C8.74591 5.33301 8.18586 5.33301 7.75803 5.55099C7.38171 5.74274 7.07575 6.0487 6.884 6.42503C6.66602 6.85285 6.66602 7.4129 6.66602 8.53301V15.4663C6.66602 16.5864 6.66602 17.1465 6.884 17.5743C7.07575 17.9506 7.38171 18.2566 7.75803 18.4484C8.18586 18.6663 8.74591 18.6663 9.86602 18.6663H11.666M18.666 18.6663L17.666 17.6663M18.3327 15.9997C18.3327 17.2883 17.288 18.333 15.9993 18.333C14.7107 18.333 13.666 17.2883 13.666 15.9997C13.666 14.711 14.7107 13.6663 15.9993 13.6663C17.288 13.6663 18.3327 14.711 18.3327 15.9997Z"
-                          stroke="#90A1B9"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />{" "}
-                      </svg>
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           )}
@@ -2489,6 +2538,134 @@ export default function LeadView() {
                 </div>
               </div>
               <div className="mt-5 bg-[#F8FAFC] ml-[12px] p-3 rounded-md">
+                <div className={`${emailTemplate ? 'block' : 'hidden'} pb-[23px] group grid grid-cols-[50px_1fr] items-start relative min-h-[75px] after:content-[''] after:w-[2px] after:h-[100%] after:bg-[#e2e8f0] after:ml-[19px] after:absolute after:bottom-0 after:translate-y-[4%]`}>
+                  <div className="z-[1]">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" fill="#FEF9C2" /> <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#FFDF20" /> <path d="M10 15L18.1649 20.7154C18.8261 21.1783 19.1567 21.4097 19.5163 21.4993C19.8339 21.5785 20.1661 21.5785 20.4837 21.4993C20.8433 21.4097 21.1739 21.1783 21.8351 20.7154L30 15M14.8 28H25.2C26.8802 28 27.7202 28 28.362 27.673C28.9265 27.3854 29.3854 26.9265 29.673 26.362C30 25.7202 30 24.8802 30 23.2V16.8C30 15.1198 30 14.2798 29.673 13.638C29.3854 13.0735 28.9265 12.6146 28.362 12.327C27.7202 12 26.8802 12 25.2 12H14.8C13.1198 12 12.2798 12 11.638 12.327C11.0735 12.6146 10.6146 13.0735 10.327 13.638C10 14.2798 10 15.1198 10 16.8V23.2C10 24.8802 10 25.7202 10.327 26.362C10.6146 26.9265 11.0735 27.3854 11.638 27.673C12.2798 28 13.1198 28 14.8 28Z" stroke="#F0B100" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                  </div>
+                  <div className="bg-[#fff] rounded-[6px] border-2 border-[#F1F5F9]">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-3 mb-3 p-2">
+                      <div>
+                        <p className=" text-[14px] text-[#314158] font-[500] ">
+                          <span className="font-[700] mr-2">(no subject)</span>
+                        </p>
+
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Tooltip text="More" position="top">
+                          <div className="hover:bg-[#e2e6ea] rounded-[50%] flex items-center justify-center w-[28px] h-[28px] opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer">
+                            <Menu
+                              as="span"
+                              className="relative inline-block text-left h-[21px]"
+                            >
+                              <div>
+                                <MenuButton className="">
+                                  <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    {" "}
+                                    <path
+                                      d="M11.9993 12.6663C12.3675 12.6663 12.666 12.3679 12.666 11.9997C12.666 11.6315 12.3675 11.333 11.9993 11.333C11.6312 11.333 11.3327 11.6315 11.3327 11.9997C11.3327 12.3679 11.6312 12.6663 11.9993 12.6663Z"
+                                      stroke="#90A1B9"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />{" "}
+                                    <path
+                                      d="M16.666 12.6663C17.0342 12.6663 17.3327 12.3679 17.3327 11.9997C17.3327 11.6315 17.0342 11.333 16.666 11.333C16.2978 11.333 15.9993 11.6315 15.9993 11.9997C15.9993 12.3679 16.2978 12.6663 16.666 12.6663Z"
+                                      stroke="#90A1B9"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />{" "}
+                                    <path
+                                      d="M7.33268 12.6663C7.70087 12.6663 7.99935 12.3679 7.99935 11.9997C7.99935 11.6315 7.70087 11.333 7.33268 11.333C6.96449 11.333 6.66602 11.6315 6.66602 11.9997C6.66602 12.3679 6.96449 12.6663 7.33268 12.6663Z"
+                                      stroke="#90A1B9"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />{" "}
+                                  </svg>
+                                </MenuButton>
+                              </div>
+
+                              <MenuItems
+                                transition
+                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg  transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                              >
+                                <MenuItem className="hover:bg-[#eeeeee]">
+                                  <a
+                                    href="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                  >
+                                    Delete
+                                  </a>
+                                </MenuItem>
+                              </MenuItems>
+                            </Menu>
+                          </div>
+                        </Tooltip>
+                        <div className="border-l border-[#dcdcdc] pl-3">
+                          <Tooltip text="UserName" position="top">
+                            <div className="w-[28px] h-[28px] bg-cover bg-position-[center] bg-[url(/images/avatarsetting.png)] rounded-[50%]"></div>
+                          </Tooltip>
+                        </div>
+                        {/* <div>
+                          <span>4d ago</span>
+                        </div> */}
+                      </div>
+                    </div>
+                    <div className="sender px-2">
+                      <span>From: </span>
+                      <Link href='' className="text-[#314158] text-[14px] font-500 hover:underline hover:underline-offset-1">Mike Millers mikemiller@gmail.com</Link>
+                    </div>
+                    <div className='receiver px-2 mt-2'>
+                      <span>To: </span>
+                      <Link href='' className="text-[#314158] text-[14px] font-500 hover:underline hover:underline-offset-1">hamdan@gmail.com</Link>
+                    </div>
+                    <div className="emailSelect flex items-center px-2 gap-2 mt-2">
+                      <div>To</div>
+                      <CreatableSelect
+                        isMulti
+                        name="productTir"
+                        placeholder="Type and press Enter..."
+                        options={sendingData}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        menuPortalTarget={document.body}
+                        styles={{
+                          menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                          control: (base) => ({ ...base, zIndex: 10 }),
+                        }}
+                        onChange={(newValue) => {
+                          console.log('Selected:', newValue);
+                        }}
+                      />
+                      <div className='flex items-center gap-2'><span className="cursor-pointer" onClick={() => setccVal(!ccVal)}>Cc</span><span className="cursor-pointer" onClick={() => setBccVal(!bccVal)}>Bcc</span></div>
+                    </div>
+                    <div className='mt-2 overflow-hidden'>
+                      <input type="text" className='h-[44px] w-full px-3 bg-[transparent] border-[#F1F5F9] border-b border-t text-[#90A1B9] text-[16px] font-500 focus-visible:outline-[transparent]' placeholder="Subject" />
+                    </div>
+                    <div className={`overflow-hidden ${ccVal ? 'block' : 'hidden'}`}>
+                      <input type="text" className='h-[44px] w-full px-3 bg-[transparent] border-[#F1F5F9] border-b border-t text-[#90A1B9] text-[16px] font-500 focus-visible:outline-[transparent]' placeholder="Cc" />
+                    </div>
+                    <div className={`overflow-hidden ${bccVal ? 'block' : 'hidden'}`}>
+                      <input type="text" className='h-[44px] w-full px-3 bg-[transparent] border-[#F1F5F9] border-b border-t text-[#90A1B9] text-[16px] font-500 focus-visible:outline-[transparent]' placeholder="Bcc" />
+                    </div>
+                    <div className='my-2 overflow-hidden'>
+                      <textarea name="" placeholder="Type Here" id="" className='px-2 w-full h-[110px] bg-[#fff] p-2 resize-none focus-visible:outline-[transparent]'></textarea>
+                    </div>
+                    <div className='flex justify-end gap-2 mb-2'>
+                      <button onClick={() => setEmailTemplate(false)} className='flex items-center justify-center text-center h-[38px] gap-2 bg-[#F8FAFC] border border-[#F1F5F9] rounded-[60px] text-[#62748E] text-[12px] font-[700] leading-5 px-4 py-3 cursor-pointer select-none hover:bg-[#e5e5e5] '>Cancenl</button>
+                      <button className='flex items-center justify-center text-center h-[38px] gap-2 bg-[#2B7FFF] border border-[#8EC5FF] rounded-[60px] text-[#fff] text-[12px] font-[700] leading-5 px-4 py-3 cursor-pointer select-none hover:bg-[#2873e6] '>Send</button>
+                    </div>
+
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-[50px_1fr] items-start relative min-h-[75px] after:content-[''] after:w-[2px] after:h-[100%] after:bg-[#e2e8f0] after:ml-[19px] after:absolute after:bottom-0 after:translate-y-[4%] ">
                   <div className="z-[1]">
                     <svg
@@ -2570,7 +2747,7 @@ export default function LeadView() {
                     <span className="font-[700] mx-2"> Fariz Elahi</span>
                   </p>
                 </div>
-                <div className="group grid grid-cols-[50px_1fr] items-start relative min-h-[75px] after:content-[''] after:w-[2px] after:h-[100%] after:bg-[#e2e8f0] after:ml-[19px] after:absolute after:bottom-0 after:translate-y-[4%] ">
+                <div className="pb-[23px] group grid grid-cols-[50px_1fr] items-start relative min-h-[75px] after:content-[''] after:w-[2px] after:h-[100%] after:bg-[#e2e8f0] after:ml-[19px] after:absolute after:bottom-0 after:translate-y-[4%] ">
                   <div className="z-[1]">
                     <svg
                       width="40"
@@ -2809,7 +2986,7 @@ export default function LeadView() {
                     renewals
                   </p>
                 </div>
-                <div className="group grid grid-cols-[50px_1fr] items-start relative min-h-[75px] after:content-[''] after:w-[2px] after:h-[100%] after:bg-[#e2e8f0] after:ml-[19px] after:absolute after:bottom-0 after:translate-y-[4%] ">
+                <div className="pb-[23px] group grid grid-cols-[50px_1fr] items-start relative min-h-[75px] after:content-[''] after:w-[2px] after:h-[100%] after:bg-[#e2e8f0] after:ml-[19px] after:absolute after:bottom-0 after:translate-y-[4%] ">
                   <div className="z-[1]">
                     <svg
                       width="40"

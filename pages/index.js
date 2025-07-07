@@ -104,7 +104,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Agents Edge | Dashboard</title>
+        <title>MCA | Dashboard</title>
       </Head>
 
       <div className="flex justify-between bg-white dark:bg-gray-800 rounded-xl banner-pattern p-6">

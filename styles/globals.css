@@ -224,3 +224,22 @@ canvas {
 
   
 }
+
+.emailSelect{
+  .css-jxcsum-control{
+    border-radius: 0;
+    border: none;
+  }
+  .select__indicators{
+    display: none;
+  }
+  .css-b62m3t-container{
+    width: 100%;
+  }
+  .select__value-container{
+    &:focus-visible{
+       box-shadow: none;
+       outline: none;
+    }
+  }
+}
