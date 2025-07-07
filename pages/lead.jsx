@@ -189,9 +189,8 @@ export default function Lead() {
             {/* Modal panel */}
             <div
               className={`inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full
-              ${
-                DeleteModalAnimation ? "scale-100 skew-y-0" : "scale-0 skew-y-6"
-              }
+              ${DeleteModalAnimation ? "scale-100 skew-y-0" : "scale-0 skew-y-6"
+                }
               duration-500 ease-out
             `}
             >
@@ -457,7 +456,7 @@ export default function Lead() {
                       </td>
                       <td
                         className="px-6 py-4 whitespace-nowrap text-[14px] font-[500] border-l-[1px] border-[#F1F5F9]"
-                        onClick={() => router.push("/client_view")}
+                        onClick={() => router.push("/admin/leadView")}
                       >
                         <span className="block"> {item.date}</span>
                         <span className="text-[#45556C]"> {item.time}</span>
@@ -518,7 +517,7 @@ export default function Lead() {
                       </td>
                       <td
                         className="px-6 py-4 whitespace-nowrap text-sm border-l-[1px] border-[#F1F5F9]"
-                        // onClick={() => router.push("/client_view")}
+                      // onClick={() => router.push("/client_view")}
                       >
                         <div className="flex items-center gap-3">
                           <Link href="">
@@ -682,8 +681,8 @@ export default function Lead() {
                   No records found
                 </p>
                 {searchQuery ||
-                statusFilter !== "All Statuses" ||
-                agentFilter !== "All Agents" ? (
+                  statusFilter !== "All Statuses" ||
+                  agentFilter !== "All Agents" ? (
                   <button
                     onClick={() => {
                       setSearchQuery("");

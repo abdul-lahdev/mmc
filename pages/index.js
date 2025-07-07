@@ -5,10 +5,11 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import Chart from "../components/Chart";
 import DonutChart from "../components/DonutChart";
-
 export default function Home() {
   const [isDark, toggleDark] = useDarkMode();
 // Table data 
+
+
 
   const tableData = [
     {

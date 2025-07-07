@@ -189,9 +189,8 @@ export default function Lead() {
             {/* Modal panel */}
             <div
               className={`inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full
-              ${
-                DeleteModalAnimation ? "scale-100 skew-y-0" : "scale-0 skew-y-6"
-              }
+              ${DeleteModalAnimation ? "scale-100 skew-y-0" : "scale-0 skew-y-6"
+                }
               duration-500 ease-out
             `}
             >
@@ -457,14 +456,14 @@ export default function Lead() {
                       </td>
                       <td
                         className="px-6 py-4 whitespace-nowrap text-[14px] font-[500] border-l-[1px] border-[#F1F5F9]"
-                        onClick={() => router.push("/client_view")}
+                        onClick={() => router.push("/admin/leadView")}
                       >
                         <span className="block"> {item.date}</span>
                         <span className="text-[#45556C]"> {item.time}</span>
                       </td>
                       <td
                         className="px-6 py-4 whitespace-nowrap border-l-[1px] border-[#F1F5F9]"
-                        onClick={() => router.push("/client_view")}
+                        onClick={() => router.push("/admin/leadView")}
                       >
                         <div className="flex items-center">
                           <div className="">
@@ -479,7 +478,7 @@ export default function Lead() {
                       </td>
                       <td
                         className="px-6 py-4 whitespace-nowrap border-l-[1px] border-[#F1F5F9]"
-                        onClick={() => router.push("/client_view")}
+                        onClick={() => router.push("/admin/leadView")}
                       >
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#F1F5F9] flex items-center justify-center text-[#90A1B9] font-[500] text-[12px]">
@@ -498,7 +497,7 @@ export default function Lead() {
 
                       <td
                         className="px-6 py-4 whitespace-nowrap border-l-[1px] border-[#F1F5F9]"
-                        onClick={() => router.push("/client_view")}
+                        onClick={() => router.push("/admin/leadView")}
                       >
                         {item.status === "Qualified" ? (
                           <span className="inline-flex items-center rounded-[25px] bg-[#F0FDF4] px-3 py-1 text-[14px] font-[700] border text-[#00A63E] border-solid border-[#00A63E] ">
@@ -518,7 +517,7 @@ export default function Lead() {
                       </td>
                       <td
                         className="px-6 py-4 whitespace-nowrap text-sm border-l-[1px] border-[#F1F5F9]"
-                        // onClick={() => router.push("/client_view")}
+                      // onClick={() => router.push("/client_view")}
                       >
                         <div className="flex items-center gap-3">
                           <Link href="">
@@ -682,8 +681,8 @@ export default function Lead() {
                   No records found
                 </p>
                 {searchQuery ||
-                statusFilter !== "All Statuses" ||
-                agentFilter !== "All Agents" ? (
+                  statusFilter !== "All Statuses" ||
+                  agentFilter !== "All Agents" ? (
                   <button
                     onClick={() => {
                       setSearchQuery("");

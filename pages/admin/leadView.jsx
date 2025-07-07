@@ -1624,8 +1624,8 @@ export default function LeadView() {
               </button>
             </Tooltip>
           </div>
-          <div className="h-[38px] flex overflow-hidden bg-[#F8FAFC] border divide-x rounded-[40px] rtl:flex-row-reverse dark:bg-gray-900 dark:border-gray-700 dark:divide-gray-700">
-            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+          <div className="h-[38px] flex overflow-hidden bg-[#F8FAFC] border divide-x rounded-[40px] rtl:flex-row-reverse ">
+            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6  hover:bg-gray-100">
               <svg
                 width="16"
                 height="16"
@@ -1655,7 +1655,7 @@ export default function LeadView() {
                 Call
               </span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6  hover:bg-gray-100">
               <svg
                 width="16"
                 height="16"
@@ -1673,7 +1673,7 @@ export default function LeadView() {
               </svg>
               <span className="text-[12px] text-[#62748E] font-[500]">SMS</span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+            <button className="flex items-center gap-2 px-4 py-2 font-medium text-gray-600 transition-colors duration-200 sm:px-6  hover:bg-gray-100">
               <svg
                 width="16"
                 height="16"
@@ -1697,7 +1697,7 @@ export default function LeadView() {
           <div>
             <Tooltip text="Change lead Status" position="bottom">
               <div className="relative w-full">
-                <select className="h-[38px] appearance-none bg-[#F1F5F9] hover:bg-gray-100 w-full px-4 py-2 pr-10 dark:bg-gray-800 dark:text-white rounded-[60px] text-sm focus:outline-none">
+                <select className="h-[38px] appearance-none bg-[#F1F5F9] hover:bg-gray-100 w-full px-4 py-2 pr-10 rounded-[60px] text-sm focus:outline-none">
                   <option className="border border-[red] rounded-[12px]">
                     Lead Status
                   </option>
@@ -1707,7 +1707,7 @@ export default function LeadView() {
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                   <svg
-                    className="w-4 h-4 dark:text-white"
+                    className="w-4 h-4 "
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"

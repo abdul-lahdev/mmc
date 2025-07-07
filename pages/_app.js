@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }) {
         </div>
       )}
 
-      <div className="flex h-screen overflow-hidden customeBackground text-gray-800 dark:bg-gray-900 dark:text-white">
+      <div className="flex h-screen overflow-hidden customeBackground text-gray-800">
         {/* Sidebar */}
         <Sidebar
           isOpen={isMobileSidebarOpen}

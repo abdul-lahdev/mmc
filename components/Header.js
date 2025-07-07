@@ -12,7 +12,7 @@ export default function Header({ toggleDark, onToggleMobileSidebar }) {
 
     // lg:text-[20px] → on large screens and up (≥1024px)
 
-    <div className="flex items-center justify-between h-[80px] pl-0 pr-6  dark:bg-gray-800 ">
+    <div className="flex items-center justify-between h-[80px] pl-0 pr-6   ">
       {/* Left Side - Sidebar Toggle */}
       <div className="text-xl font-bold text-red-600">
         {/* <button

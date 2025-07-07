@@ -134,7 +134,8 @@ export default function Sidebar({ isOpen, onClose }) {
       ),
     },
     {
-      href: "/training_catalog",
+      // href: "/training_catalog",
+      href: "/admin/lead",
       label: "Leads",
       icon: (
         <svg
