@@ -19,7 +19,7 @@ const CKEditorComponent = () => {
         <Editor
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
-            wrapperClassName="border border-gray-800 rounded-md p-2 shadow-sm flex flex-col-reverse"
+            wrapperClassName="border border-[#e5e7eb] rounded-md p-2 shadow-sm flex flex-col-reverse"
             editorClassName="min-h-[200px] text-lg p-2 bg-white focus:outline-none"
             toolbar={{
                 options: ['inline', 'blockType', 'list', 'link', 'image'],

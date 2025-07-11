@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/leadView": "pages/admin/leadView.js",
-  "/admin/demo": "pages/admin/demo.js"
+  "/admin/demo": "pages/admin/demo.js",
+  "/admin/leadView": "pages/admin/leadView.js"
 }
