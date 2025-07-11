@@ -12,6 +12,8 @@ import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import FileUploader from "../../components/FileUploader";
 import Link from "next/link";
 import CreatableSelect from 'react-select/creatable';
+import CKEditorComponent from "../../components/CKEditorComponent";
+import CommentDropdown from "../../components/CommentDrop";
 
 import { useEffect } from "react";
 import {
@@ -55,6 +57,7 @@ export default function LeadView() {
   const [ccVal, setccVal] = useState(true)
   const [bccVal, setBccVal] = useState(true)
   const [emailTemplate, setEmailTemplate] = useState(false)
+  const [chatData, setChatData] = useState([])
 
   // Functions
   function addTaskBtn(e) {
@@ -94,6 +97,20 @@ export default function LeadView() {
     setTaskSection(false);
   }
 
+
+  function sendChat(e) {
+    e.preventDefault();
+    let form = e.target;
+    let formData = new FormData(form);
+    formData.set('id', `${Math.random()}`)
+    formData.set('username', 'Mike Millers');
+    let formObj = Object.fromEntries(formData.entries())
+    setChatData((prev) => [...prev, formObj])
+    console.log(chatData)
+    form.reset()
+  }
+
+
   function checkFilter(e) {
     // console.log(e.target.textContent);
     setFilterValue(e.target.textContent);
@@ -115,6 +132,14 @@ export default function LeadView() {
 
   const handleDelete = (deleteIndex) => {
     setAddressData((prev) => prev.filter((_, index) => index !== deleteIndex));
+  };
+
+  // const chatDelete = (deleteId) => {
+  //   setChatData((prev) => prev.filter((_, index) => index !== deleteId))
+  // }
+
+  const chatDelete = (deleteId) => {
+    setChatData((prev) => prev.filter((item) => item.id !== deleteId));
   };
 
   // Objects
@@ -1311,128 +1336,115 @@ export default function LeadView() {
                     >
                       <div>
                         <div className="flex items-center justify-between border-b border-[#f6f6f6] pb-3">
-                          <div>
-                            <span>Close (Example)</span>
-                            <span> {">"} </span>
-                            <span>Notes</span>
+                          <div className="flex items-center gap-3">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" fill="#F1F5F9" /> <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#CAD5E2" /> <path d="M15.8333 17.0833H20M15.8333 20H22.5M15.8333 25V26.9463C15.8333 27.3903 15.8333 27.6123 15.9244 27.7263C16.0035 27.8255 16.1236 27.8832 16.2504 27.8831C16.3964 27.8829 16.5697 27.7442 16.9165 27.4668L18.9043 25.8765C19.3104 25.5517 19.5135 25.3892 19.7396 25.2737C19.9402 25.1712 20.1537 25.0963 20.3743 25.051C20.6231 25 20.8831 25 21.4031 25H23.5C24.9001 25 25.6002 25 26.135 24.7275C26.6054 24.4878 26.9878 24.1054 27.2275 23.635C27.5 23.1002 27.5 22.4001 27.5 21V16.5C27.5 15.0999 27.5 14.3998 27.2275 13.865C26.9878 13.3946 26.6054 13.0122 26.135 12.7725C25.6002 12.5 24.9001 12.5 23.5 12.5H16.5C15.0999 12.5 14.3998 12.5 13.865 12.7725C13.3946 13.0122 13.0122 13.3946 12.7725 13.865C12.5 14.3998 12.5 15.0999 12.5 16.5V21.6667C12.5 22.4416 12.5 22.8291 12.5852 23.147C12.8164 24.0098 13.4902 24.6836 14.353 24.9148C14.6709 25 15.0584 25 15.8333 25Z" stroke="#90A1B9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                            <div>
+                              <h1 className="text-[#0F172B] text-[16px] font-[700] ">
+                                Note
+                              </h1>
+                              <p className="text-[#90A1B9] text-[12px] font-[400]">
+                                Hint text goes here...
+                              </p>
+                            </div>
+
                           </div>
                           <span
                             className="cursor-pointer"
                             onClick={() => setFileOpen(false)}
                           >
-                            X
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M25 15L15 25M15 15L25 25" stroke="#90A1B9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                           </span>
                         </div>
                         <div className="grid grid-cols-[3fr_1fr]">
                           <div className="bg-[#F8FAFC] p-4 border-r border-[#f6f6f6]">
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <span>Notes</span>
-                              </div>
-                              <div>
-                                <Menu
-                                  as="div"
-                                  className="relative inline-block text-left"
-                                >
-                                  <div>
-                                    <MenuButton>
-                                      <svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        {" "}
-                                        <path
-                                          d="M11.9993 12.6663C12.3675 12.6663 12.666 12.3679 12.666 11.9997C12.666 11.6315 12.3675 11.333 11.9993 11.333C11.6312 11.333 11.3327 11.6315 11.3327 11.9997C11.3327 12.3679 11.6312 12.6663 11.9993 12.6663Z"
-                                          stroke="#90A1B9"
-                                          strokeWidth="1.5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        />{" "}
-                                        <path
-                                          d="M16.666 12.6663C17.0342 12.6663 17.3327 12.3679 17.3327 11.9997C17.3327 11.6315 17.0342 11.333 16.666 11.333C16.2978 11.333 15.9993 11.6315 15.9993 11.9997C15.9993 12.3679 16.2978 12.6663 16.666 12.6663Z"
-                                          stroke="#90A1B9"
-                                          strokeWidth="1.5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        />{" "}
-                                        <path
-                                          d="M7.33268 12.6663C7.70087 12.6663 7.99935 12.3679 7.99935 11.9997C7.99935 11.6315 7.70087 11.333 7.33268 11.333C6.96449 11.333 6.66602 11.6315 6.66602 11.9997C6.66602 12.3679 6.96449 12.6663 7.33268 12.6663Z"
-                                          stroke="#90A1B9"
-                                          strokeWidth="1.5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        />{" "}
-                                      </svg>
-                                    </MenuButton>
-                                  </div>
 
-                                  <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                  >
-                                    <div className="py-1">
-                                      <MenuItem>
-                                        <a
-                                          href="#"
-                                          className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                        >
-                                          Delete
-                                        </a>
-                                      </MenuItem>
-                                    </div>
-                                  </MenuItems>
-                                </Menu>
-                              </div>
-                            </div>
                             <div className="flex items-center justify-center">
-                              <div className="bg-[#fff] w-[80%] p-4 rounded-[6px]">
-                                <div className="flex items-center gap-3">
-                                  <div className="w-[25px] h-[25px] bg-[black] rounded-[50%]"></div>
-                                  <p>Jun 23</p>
-                                  <span className="block w-[4px] h-[4px] rounded-[50%] bg-[#000]"></span>
-                                  <span>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="none"
-                                      viewBox="0 0 16 16"
-                                      className="w-[20px] h-[20px]"
+                              <div className="bg-[#fff] w-full p-4 rounded-[6px]">
+                                <div className="flex justify-between items-center border-b border-[#F1F5F9] pb-2 mb-2">
+                                  <div>
+                                    <span className="text-[#0F172B] text-[14px] font-[700] underline underline-offset-2">Fariz Elahi</span>
+                                    <span className="text-[#0F172B] text-[14px] font-[500]"> called </span>
+                                    <span className="text-[#0F172B] text-[14px] font-[700]"> Merchant Name</span>
+                                    <p className="text-[#90A1B9] text-[10px] font-[400]">01/12/25 (10:00 am)</p>
+                                  </div>
+                                  <div>
+                                    <Menu
+                                      as="div"
+                                      className="relative inline-block text-left"
                                     >
-                                      <path
-                                        fill="currentColor"
-                                        d="M13.46 1.513a1.745 1.745 0 0 0-2.473 0l-8.754 8.754c-.234.234-.397.53-.47.853l-.754 3.358c-.056.251.16.522.427.522a.44.44 0 0 0 .088-.009s2.313-.49 3.357-.736c.316-.074.598-.233.828-.462L14.49 5.01a1.747 1.747 0 0 0-.002-2.472L13.46 1.513ZM4.78 12.864a.408.408 0 0 1-.2.113c-.497.117-1.298.293-1.988.443l.453-2.012a.437.437 0 0 1 .117-.214L9.776 4.58l1.644 1.644-6.641 6.64Z"
-                                      ></path>
-                                    </svg>
-                                  </span>
+                                      <div>
+                                        <MenuButton>
+                                          <svg
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            {" "}
+                                            <path
+                                              d="M11.9993 12.6663C12.3675 12.6663 12.666 12.3679 12.666 11.9997C12.666 11.6315 12.3675 11.333 11.9993 11.333C11.6312 11.333 11.3327 11.6315 11.3327 11.9997C11.3327 12.3679 11.6312 12.6663 11.9993 12.6663Z"
+                                              stroke="#90A1B9"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            />{" "}
+                                            <path
+                                              d="M16.666 12.6663C17.0342 12.6663 17.3327 12.3679 17.3327 11.9997C17.3327 11.6315 17.0342 11.333 16.666 11.333C16.2978 11.333 15.9993 11.6315 15.9993 11.9997C15.9993 12.3679 16.2978 12.6663 16.666 12.6663Z"
+                                              stroke="#90A1B9"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            />{" "}
+                                            <path
+                                              d="M7.33268 12.6663C7.70087 12.6663 7.99935 12.3679 7.99935 11.9997C7.99935 11.6315 7.70087 11.333 7.33268 11.333C6.96449 11.333 6.66602 11.6315 6.66602 11.9997C6.66602 12.3679 6.96449 12.6663 7.33268 12.6663Z"
+                                              stroke="#90A1B9"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            />{" "}
+                                          </svg>
+                                        </MenuButton>
+                                      </div>
+
+                                      <MenuItems
+                                        transition
+                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                      >
+                                        <div className="py-1">
+                                          <MenuItem>
+                                            <a
+                                              href="#"
+                                              className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                            >
+                                              Delete
+                                            </a>
+                                          </MenuItem>
+                                        </div>
+                                      </MenuItems>
+                                    </Menu>
+                                  </div>
                                 </div>
+
                                 <div>
-                                  <h1>Mobile Apps</h1>
-                                  <p>
-                                    Make sure to download our iOS and Android
-                                    apps. They give you quick access to the most
-                                    important features, while on the go:
+                                  <h1 className='text-[#45556C] text-[14px] font-[400]'>Really good call overall. Doug really appreciated our case study and is interested in further conversations.</h1>
+                                  <p className='text-[#45556C] text-[14px] font-[400]'>
+                                    There are a few minor things we need to adjust in the proposal:
                                   </p>
                                   <ul>
-                                    <li className="list-disc ml-4">
-                                      Email, SMS, and Calling
+                                    <li className="list-disc ml-4 text-[#45556C] text-[14px] font-[400]">
+                                      Pricing
                                     </li>
-                                    <li className="list-disc ml-4">Inbox</li>
-                                    <li className="list-disc ml-4">
-                                      Leads and Contacts
+                                    <li className="list-disc ml-4 text-[#45556C] text-[14px] font-[400]">Premium support scope</li>
+                                    <li className="list-disc ml-4 text-[#45556C] text-[14px] font-[400]">
+                                      Timelines
                                     </li>
-                                    <li className="list-disc ml-4">
-                                      Lead and Opportunity Management
-                                    </li>
-                                    <li className="list-disc ml-4">
-                                      Reporting and Smart Views
-                                    </li>
+
                                   </ul>
-                                  <div>
+                                  <div className="hidden">
                                     Attachments <span>1.95 MB</span>{" "}
                                   </div>
-                                  <div className="mt-3">
+                                  <div className="mt-3 hidden">
                                     <PhotoProvider>
                                       <div className="foo flex gap-3">
                                         {images.map((item, index) => (
@@ -1451,16 +1463,102 @@ export default function LeadView() {
                               </div>
                             </div>
                           </div>
-                          <div className="p-4">
-                            <div className="">0 comments</div>
-                            <div className="mt-4 grid grid-cols-[15%_85%] items-center">
-                              <div className="w-[30px] h-[30px] bg-black rounded-[50%]"></div>
-                              <textarea className="min-h-[40px] resize-none w-full px-3 hover:bg-[#F1F5F9] rounded-[8px] border border-[#d9dde1] text-[#202020] text-[16px] font-500 focus-visible:outline-[#d9dde1] focus-visible:text-[#90A1B9]"></textarea>
+                          <div className="p-4 pe-0 pb-0">
+                            <div className='h-[505px]'>
+                              <div className='grid grid-cols-1 gap-3'>
+                                {
+                                  chatData.length > 0 ?
+                                    chatData.map((data, index) => (
+                                      <div className="grid grid-cols-[25px_1fr] w-full gap-2" key={index}>
+                                        <div className='w-[24px] h-[24px] rounded-[50%] bg-[url(/images/avatarsetting.png)] bg-cover bg-center'></div>
+                                        <div className=''>
+                                          <div className='flex items-center justify-between'>
+                                            <div>
+                                              <p className='text-[#45556C] text-[14px] font-[600]'>{data.username}</p>
+                                              <p className='text-[#90A1B9] text-[10px] font-[400]'>
+                                                12/10/2025 (02:30 pm)
+                                              </p>
+                                              {/* <button type="button" onClick={() => chatDelete(data.id)}>Del</button> */}
+                                            </div>
+                                            <div>
+                                              <Menu
+                                                as="span"
+                                                className="relative inline-block text-left h-[21px]"
+                                              >
+                                                <div>
+                                                  <MenuButton className="">
+                                                    <svg
+                                                      width="24"
+                                                      height="24"
+                                                      viewBox="0 0 24 24"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      {" "}
+                                                      <path
+                                                        d="M11.9993 12.6663C12.3675 12.6663 12.666 12.3679 12.666 11.9997C12.666 11.6315 12.3675 11.333 11.9993 11.333C11.6312 11.333 11.3327 11.6315 11.3327 11.9997C11.3327 12.3679 11.6312 12.6663 11.9993 12.6663Z"
+                                                        stroke="#90A1B9"
+                                                        strokeWidth="1.5"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                      />{" "}
+                                                      <path
+                                                        d="M16.666 12.6663C17.0342 12.6663 17.3327 12.3679 17.3327 11.9997C17.3327 11.6315 17.0342 11.333 16.666 11.333C16.2978 11.333 15.9993 11.6315 15.9993 11.9997C15.9993 12.3679 16.2978 12.6663 16.666 12.6663Z"
+                                                        stroke="#90A1B9"
+                                                        strokeWidth="1.5"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                      />{" "}
+                                                      <path
+                                                        d="M7.33268 12.6663C7.70087 12.6663 7.99935 12.3679 7.99935 11.9997C7.99935 11.6315 7.70087 11.333 7.33268 11.333C6.96449 11.333 6.66602 11.6315 6.66602 11.9997C6.66602 12.3679 6.96449 12.6663 7.33268 12.6663Z"
+                                                        stroke="#90A1B9"
+                                                        strokeWidth="1.5"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                      />{" "}
+                                                    </svg>
+                                                  </MenuButton>
+                                                </div>
+
+                                                <MenuItems
+                                                  transition
+                                                  className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg  transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                                >
+                                                  <MenuItem className="hover:bg-[#eeeeee]">
+                                                    <a
+                                                      href="#"
+                                                      onClick={() => chatDelete(data.id)}
+                                                      className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                                    >
+                                                      Delete
+                                                    </a>
+                                                  </MenuItem>
+                                                </MenuItems>
+                                              </Menu>
+                                            </div>
+                                          </div>
+                                          <p className='text-[#45556C] text-[14px] font-[400]'>{data.commentText}</p>
+                                        </div>
+                                      </div>
+                                    ))
+                                    : 'No Comment Yet'
+                                }
+                              </div>
                             </div>
-                            <div className="mt-3 flex justify-end">
-                              <button className="bg-[#e3e3e3] px-2 py-1 rounded-md">
-                                Send
-                              </button>
+                            <div>
+                              <form action="" onSubmit={sendChat}>
+                                <div className='relative'>
+
+                                  <div className="absolute right-0 top-0 -translate-x-2 translate-y-2">
+                                    <button type="submit">
+                                      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="1" y="1" width="34" height="34" rx="17" fill="#2B7FFF" /> <rect x="1" y="1" width="34" height="34" rx="17" stroke="#8EC5FF" stroke-width="2" /> <path d="M15.3333 16.3333H18M15.3333 18.6667H20M18 24C21.3137 24 24 21.3137 24 18C24 14.6863 21.3137 12 18 12C14.6863 12 12 14.6863 12 18C12 18.7981 12.1558 19.5598 12.4387 20.2563C12.4928 20.3897 12.5199 20.4563 12.532 20.5102C12.5438 20.5629 12.5481 20.6019 12.5481 20.6559C12.5481 20.7111 12.5381 20.7713 12.5181 20.8916L12.1228 23.2635C12.0814 23.5119 12.0607 23.6361 12.0992 23.7259C12.1329 23.8045 12.1955 23.8671 12.2741 23.9008C12.3639 23.9393 12.4881 23.9186 12.7365 23.8772L15.1084 23.4819C15.2287 23.4619 15.2889 23.4519 15.3441 23.4519C15.3981 23.4519 15.4371 23.4562 15.4898 23.468C15.5437 23.4801 15.6103 23.5072 15.7437 23.5613C16.4402 23.8442 17.2019 24 18 24Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+
+                                    </button>
+
+                                  </div>
+                                  <input type="text" name='commentText' placeholder="Write your comment here..." className='px-2 bg-[#F8FAFC] h-[56px] w-full rounded-[8px]' />
+                                </div>
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -1472,7 +1570,7 @@ export default function LeadView() {
             </div>
           </Dialog>
         </Transition>
-      </div>
+      </div >
       {/* FILE VIEW MODAL  END*/}
 
       {/* Call VIEW MODAL */}
@@ -2299,7 +2397,7 @@ export default function LeadView() {
                     Here's a smart summary generated from your recent activity
                     and engagement with this lead.
                   </p>
-                  <button className="flex items-center gap-2 px-2 rounded-[60px] h-[38px] bg-[#2B7FFF] border-2 border-[#BEDBFF] text-[12px] text-[#fff] font-[700] transition-all-[0.2s] hover:bg-[#2773e7] ">
+                  <button className="flex items-center gap-2 px-4 rounded-[60px] h-[38px] bg-[#2B7FFF] border-2 border-[#BEDBFF] text-[12px] text-[#fff] font-[700] transition-all-[0.2s] hover:bg-[#2773e7] ">
                     Regenerate
                     <span>
                       <svg
@@ -2835,32 +2933,22 @@ export default function LeadView() {
                         </Tooltip>
                         <Tooltip text="View Comments" position="top">
                           <div className="hover:bg-[#e2e6ea] rounded-[50%] flex items-center justify-center w-[28px] h-[28px] opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer">
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              {" "}
-                              <path
-                                d="M9.33333 10.3333H12M9.33333 12.6667H14M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 12.7981 6.15582 13.5598 6.43871 14.2563C6.49285 14.3897 6.51992 14.4563 6.532 14.5102C6.54381 14.5629 6.54813 14.6019 6.54814 14.6559C6.54814 14.7111 6.53812 14.7713 6.51807 14.8916L6.12275 17.2635C6.08135 17.5119 6.06065 17.6361 6.09917 17.7259C6.13289 17.8045 6.19552 17.8671 6.27412 17.9008C6.36393 17.9393 6.48812 17.9186 6.73651 17.8772L9.10843 17.4819C9.22872 17.4619 9.28887 17.4519 9.34409 17.4519C9.3981 17.4519 9.43711 17.4562 9.48981 17.468C9.54369 17.4801 9.61035 17.5072 9.74366 17.5613C10.4402 17.8442 11.2019 18 12 18Z"
-                                stroke="#90A1B9"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />{" "}
-                            </svg>
+                            <CommentDropdown />
                           </div>
+
+
+
                         </Tooltip>
                         <Tooltip text="More" position="top">
-                          <div className="hover:bg-[#e2e6ea] rounded-[50%] flex items-center justify-center w-[28px] h-[28px] opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer">
-                            <Menu
-                              as="span"
-                              className="relative inline-block text-left h-[21px]"
-                            >
-                              <div>
-                                <MenuButton className="">
+
+
+                          <Menu
+                            as="span"
+                            className="relative inline-block text-left h-[21px]"
+                          >
+                            <div>
+                              <MenuButton className="">
+                                <div className="hover:bg-[#e2e6ea] rounded-[50%] flex items-center justify-center w-[28px] h-[28px] opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer">
                                   <svg
                                     width="24"
                                     height="24"
@@ -2891,40 +2979,41 @@ export default function LeadView() {
                                       strokeLinejoin="round"
                                     />{" "}
                                   </svg>
-                                </MenuButton>
-                              </div>
+                                </div>
 
-                              <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg  transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                              >
-                                <MenuItem className="hover:bg-[#eeeeee]">
-                                  <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                  >
-                                    Report an issue
-                                  </a>
-                                </MenuItem>
-                                <MenuItem className="hover:bg-[#eeeeee]">
-                                  <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                  >
-                                    Copy link
-                                  </a>
-                                </MenuItem>
-                                <MenuItem className="hover:bg-[#eeeeee]">
-                                  <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                  >
-                                    Delete call
-                                  </a>
-                                </MenuItem>
-                              </MenuItems>
-                            </Menu>
-                          </div>
+                              </MenuButton>
+                            </div>
+
+                            <MenuItems
+                              transition
+                              className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg  transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            >
+                              <MenuItem className="hover:bg-[#eeeeee]">
+                                <a
+                                  href="#"
+                                  className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                >
+                                  Report an issue
+                                </a>
+                              </MenuItem>
+                              <MenuItem className="hover:bg-[#eeeeee]">
+                                <a
+                                  href="#"
+                                  className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                >
+                                  Copy link
+                                </a>
+                              </MenuItem>
+                              <MenuItem className="hover:bg-[#eeeeee]">
+                                <a
+                                  href="#"
+                                  className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                >
+                                  Delete call
+                                </a>
+                              </MenuItem>
+                            </MenuItems>
+                          </Menu>
                         </Tooltip>
                         <div className="border-l border-[#dcdcdc] pl-3">
                           <Tooltip text="UserName" position="top">
@@ -3074,22 +3163,7 @@ export default function LeadView() {
                         </Tooltip>
                         <Tooltip text="View Comments" position="top">
                           <div className="hover:bg-[#e2e6ea] rounded-[50%] flex items-center justify-center w-[28px] h-[28px] opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer">
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              {" "}
-                              <path
-                                d="M9.33333 10.3333H12M9.33333 12.6667H14M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 12.7981 6.15582 13.5598 6.43871 14.2563C6.49285 14.3897 6.51992 14.4563 6.532 14.5102C6.54381 14.5629 6.54813 14.6019 6.54814 14.6559C6.54814 14.7111 6.53812 14.7713 6.51807 14.8916L6.12275 17.2635C6.08135 17.5119 6.06065 17.6361 6.09917 17.7259C6.13289 17.8045 6.19552 17.8671 6.27412 17.9008C6.36393 17.9393 6.48812 17.9186 6.73651 17.8772L9.10843 17.4819C9.22872 17.4619 9.28887 17.4519 9.34409 17.4519C9.3981 17.4519 9.43711 17.4562 9.48981 17.468C9.54369 17.4801 9.61035 17.5072 9.74366 17.5613C10.4402 17.8442 11.2019 18 12 18Z"
-                                stroke="#90A1B9"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />{" "}
-                            </svg>
+                            <CommentDropdown />
                           </div>
                         </Tooltip>
                         <Tooltip text="More" position="top">
